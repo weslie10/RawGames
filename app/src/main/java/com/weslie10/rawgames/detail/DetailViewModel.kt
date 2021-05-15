@@ -18,5 +18,5 @@ class DetailViewModel(private val rawgUseCase: RawgUseCase) : ViewModel() {
         rawgUseCase.getDetailGames(id).asLiveData()
     }
 
-    fun setFavoriteGames(games: Games) = rawgUseCase.setFavoriteGames(games)
+    fun setFavoriteGames(games: Games, state: Boolean) = rawgUseCase.setFavoriteGames(games, state)
 }

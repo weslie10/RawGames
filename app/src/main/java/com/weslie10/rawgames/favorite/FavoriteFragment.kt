@@ -30,8 +30,8 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val favoriteAdapter = FavoriteAdapter()
-        favoriteViewModel.listFavorite.observe(viewLifecycleOwner, { favorite ->
-            if (favorite != null) {
+        favoriteViewModel.listFavorite.observe(viewLifecycleOwner) { favorite ->
+            if (favorite.isNotEmpty()) {
                 favoriteAdapter.setData(favorite)
                 binding.notFound.loading(false)
 
@@ -45,11 +45,10 @@ class FavoriteFragment : Fragment() {
                     setHasFixedSize(true)
                     adapter = favoriteAdapter
                 }
-            }
-            else {
+            } else {
                 binding.notFound.loading(true)
             }
-        })
+        }
     }
 
     override fun onDestroy() {

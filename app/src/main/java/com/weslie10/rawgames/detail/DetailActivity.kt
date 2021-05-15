@@ -1,11 +1,9 @@
 package com.weslie10.rawgames.detail
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.weslie10.rawgames.R
 import com.weslie10.rawgames.core.data.Resource
@@ -109,10 +107,12 @@ class DetailActivity : AppCompatActivity() {
                         .map { it.trim() }
                         .map { addChip(it) }
                 }
-                favoriteBtn.apply{
+                Log.d("favorite",isFavorite.toString())
+                favoriteBtn.apply {
                     setFavoriteState(isFavorite)
                     setOnClickListener {
-                        detailViewModel.setFavoriteGames(data)
+                        isFavorite = !isFavorite
+                        detailViewModel.setFavoriteGames(data,isFavorite)
                     }
                 }
             }

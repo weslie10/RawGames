@@ -1,7 +1,7 @@
 package com.weslie10.rawgames.di
 
-import com.weslie10.rawgames.core.domain.usecase.RawgUseCase
 import com.weslie10.rawgames.core.domain.usecase.RawgInteractor
+import com.weslie10.rawgames.core.domain.usecase.RawgUseCase
 import com.weslie10.rawgames.detail.DetailViewModel
 import com.weslie10.rawgames.favorite.FavoriteViewModel
 import com.weslie10.rawgames.home.HomeViewModel

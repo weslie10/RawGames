@@ -2,7 +2,6 @@ package com.weslie10.rawgames.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weslie10.rawgames.core.data.source.remote.response.ResultsItem
+import com.weslie10.rawgames.core.ui.GamesAdapter
 import com.weslie10.rawgames.core.utils.Utility.loading
 import com.weslie10.rawgames.databinding.FragmentHomeBinding
 import com.weslie10.rawgames.detail.DetailActivity
 import com.weslie10.rawgames.detail.DetailActivity.Companion.ID
-import com.weslie10.rawgames.core.ui.GamesAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -65,8 +64,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val gameObserver = Observer<List<ResultsItem>> {game ->
-        if (game != null) {
+    private val gameObserver = Observer<List<ResultsItem>> { game ->
+        if (game.isNotEmpty()) {
             allLoading(false)
             gamesAdapter.setData(game)
             binding.notFound.loading(false)
@@ -99,7 +98,7 @@ class HomeFragment : Fragment() {
 
     private fun allLoading(state: Boolean) {
         binding.progressBar.loading(state)
-        binding.rvGames.visibility = if(!state) View.VISIBLE else View.INVISIBLE
+        binding.rvGames.visibility = if (!state) View.VISIBLE else View.INVISIBLE
     }
 
     override fun onDestroy() {

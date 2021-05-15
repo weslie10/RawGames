@@ -27,12 +27,12 @@
             android:paddingBottom="16dp"
             tools:context=".detail.DetailActivity">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@drawable/back_shape"
+                android:backgroundTint="@color/red"
                 android:contentDescription="@string/back"
                 android:padding="16dp"
                 android:src="@drawable/ic_back"
