@@ -15,6 +15,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "KEY", "\"1b43eaf726e14fd78bba9f06f34332b0\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,10 +50,13 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation "com.github.gifffert:ExpandableTextView:0.1.6"
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-games:19.0.0'
     kapt "androidx.room:room-compiler:$room_compiler_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"
 

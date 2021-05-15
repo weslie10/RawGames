@@ -35,7 +35,7 @@ data class GamesResponse(
 	@field:SerializedName("ratings")
 	val ratings: List<RatingsItem>,
 	@field:SerializedName("esrb_rating")
-	val esrbRating: List<EsrbRating>,
+	val esrbRating: EsrbRating,
 	@field:SerializedName("genres")
 	val genres: List<GenresItem>,
 	@field:SerializedName("stores")

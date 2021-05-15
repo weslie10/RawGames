@@ -32,21 +32,21 @@ data class GamesEntity(
     @ColumnInfo(name = "website")
     val website: String,
     @ColumnInfo(name = "developers")
-    val developers: List<DevelopersItem>,
+    val developers: String,
     @ColumnInfo(name = "publishers")
-    val publishers: List<PublishersItem>,
+    val publishers: String,
     @ColumnInfo(name = "parent_platforms")
-    val parentPlatforms: List<ParentPlatformsItem>,
+    val parentPlatforms: String,
     @ColumnInfo(name = "tags")
-    val tags: List<TagsItem>,
+    val tags: String,
     @ColumnInfo(name = "ratings")
-    val ratings: List<RatingsItem>,
+    val ratings: Int,
     @ColumnInfo(name = "esrb_rating")
-    val esrbRating: List<EsrbRating>,
+    val esrbRating: String,
     @ColumnInfo(name = "genres")
-    val genres: List<GenresItem>,
+    val genres: String,
     @ColumnInfo(name = "stores")
-    val stores: List<StoresItem>,
+    val stores: String,
     @ColumnInfo(name = "favorite")
     var isFavorite: Boolean = false
 ) : Parcelable

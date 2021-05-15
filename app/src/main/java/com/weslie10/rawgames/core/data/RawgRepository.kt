@@ -18,46 +18,42 @@ class RawgRepository(
     private val appExecutors: AppExecutors
 ) : IRawgRepository {
 
-    companion object {
-        @Volatile
-        private var instance: RawgRepository? = null
+    override fun getAllGames(): Flow<List<ResultsItem>> = remoteDataSource.getAllGames()
 
-        fun getInstance(
-            remoteData: RemoteDataSource,
-            localData: LocalDataSource,
-            appExecutors: AppExecutors
-        ): RawgRepository =
-            instance ?: synchronized(this) {
-                instance ?: RawgRepository(remoteData, localData, appExecutors)
-            }
-    }
+    override fun getSearchGames(search: String): Flow<List<ResultsItem>> =
+        remoteDataSource.getSearchGames(search)
 
-    override fun getAllGames(): Flow<Resource<List<Games>>> =
-        object :
-            NetworkBoundResource<List<Games>, List<ResultsItem>>() {
-            override fun loadFromDB(): Flow<List<Games>> {
-                return localDataSource.getAllGames().map { DataMapper.mapEntitiesToDomain(it) }
+    override fun getDetailGames(id: Int): Flow<Resource<Games>> =
+        object : NetworkBoundResource<Games, GamesResponse>() {
+            override fun loadFromDB(): Flow<Games> {
+                return localDataSource.getDetailGames(id).map {
+                    if (it != null) {
+                        DataMapper.mapEntitiesToDomain(it)
+                    } else {
+                        it
+                    }
+                }
             }
 
-            override fun shouldFetch(data: List<Games>?): Boolean =
-                data == null || data.isEmpty()
+            override fun shouldFetch(data: Games?): Boolean {
+                return data?.id == null
+            }
 
-            override suspend fun createCall(): Flow<ApiResponse<List<ResultsItem>>> =
-                remoteDataSource.getAllGames()
+            override suspend fun createCall(): Flow<ApiResponse<GamesResponse>> =
+                remoteDataSource.getDetailGames(id)
 
-            override suspend fun saveCallResult(data: List<GamesResponse>) {
-                val tourismList = DataMapper.mapResponsesToEntities(data)
-                localDataSource.insertGames(tourismList)
+            override suspend fun saveCallResult(data: GamesResponse) {
+                val gamesList = DataMapper.mapResponsesToEntities(data)
+                localDataSource.insertGames(gamesList)
             }
         }.asFlow()
 
-    override fun getFavoriteGames(): Flow<List<Games>> {
-        return localDataSource.getFavoriteGames().map { DataMapper.mapEntitiesToDomain(it) }
-    }
+    override fun getFavoriteGames(): Flow<List<Games>> =
+        localDataSource.getFavoriteGames().map { DataMapper.mapListEntitiesToListDomain(it) }
 
-    override fun setFavoriteGames(tourism: Games, state: Boolean) {
-        val tourismEntity = DataMapper.mapDomainToEntity(tourism)
-        appExecutors.diskIO().execute { localDataSource.setFavoriteGames(tourismEntity, state) }
+    override fun setFavoriteGames(games: Games) {
+        val gamesEntity = DataMapper.mapDomainToEntity(games)
+        val state = !gamesEntity.isFavorite
+        appExecutors.diskIO().execute { localDataSource.setFavoriteGames(gamesEntity, state) }
     }
 }
-

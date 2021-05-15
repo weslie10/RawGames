@@ -1,20 +1,22 @@
-package com.weslie10.rawgames.ui
+package com.weslie10.rawgames.core.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.weslie10.rawgames.R
+import com.weslie10.rawgames.core.data.source.remote.response.ResultsItem
 import com.weslie10.rawgames.core.domain.model.Games
+import com.weslie10.rawgames.core.utils.Utility.setImage
+import com.weslie10.rawgames.databinding.ItemRowBinding
 import java.util.*
 
-class GamesAdapter : RecyclerView.Adapter<GamesAdapter.ListViewHolder>() {
+class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.ListViewHolder>() {
 
     private var listData = ArrayList<Games>()
     var onItemClick: ((Games) -> Unit)? = null
 
-    fun setData(newListData: List<Games>?) {
-        if (newListData == null) return
+    fun setData(newListData: List<Games>) {
         listData.clear()
         listData.addAll(newListData)
         notifyDataSetChanged()
@@ -22,7 +24,7 @@ class GamesAdapter : RecyclerView.Adapter<GamesAdapter.ListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ListViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_list_Games, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_row, parent, false)
         )
 
     override fun getItemCount() = listData.size
@@ -33,15 +35,13 @@ class GamesAdapter : RecyclerView.Adapter<GamesAdapter.ListViewHolder>() {
     }
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemListGamesBinding.bind(itemView)
+        private val binding = ItemRowBinding.bind(itemView)
         fun bind(data: Games) {
-//            with(binding) {
-//                Glide.with(itemView.context)
-//                    .load(data.image)
-//                    .into(ivItemImage)
-//                tvItemTitle.text = data.name
-//                tvItemSubtitle.text = data.address
-//            }
+            with(binding) {
+                itemImage.setImage(data.backgroundImage)
+                itemName.text = data.name
+                itemDate.text = data.released
+            }
         }
 
         init {

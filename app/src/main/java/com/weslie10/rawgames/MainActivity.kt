@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return loadFragment(fragment)
     }
+
     private fun loadFragment(fragment: Fragment?): Boolean {
         if (fragment != null) {
             supportFragmentManager

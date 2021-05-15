@@ -1,28 +1,21 @@
 package com.weslie10.rawgames.core.data.source.local
 
+import android.util.Log
 import com.weslie10.rawgames.core.data.source.local.entity.GamesEntity
 import com.weslie10.rawgames.core.data.source.local.room.RawgDao
 import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource(private val rawgDao: RawgDao) {
 
-    companion object {
-        private var instance: LocalDataSource? = null
-
-        fun getInstance(rawgDao: RawgDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(rawgDao)
-            }
-    }
-
-    fun getAllGames(): Flow<List<GamesEntity>> = rawgDao.getAllGames()
+    fun getDetailGames(id: Int): Flow<GamesEntity> = rawgDao.getDetailGames(id)
 
     fun getFavoriteGames(): Flow<List<GamesEntity>> = rawgDao.getFavoriteGames()
 
-    suspend fun insertGames(rawgList: List<GamesEntity>) = rawgDao.insertGames(rawgList)
+    suspend fun insertGames(games: GamesEntity) = rawgDao.insertGames(games)
 
-    fun setFavoriteGames(games: GamesEntity, newState: Boolean) {
-        games.isFavorite = newState
-        rawgDao.updateFavoriteGames(games)
+    fun setFavoriteGames(games: GamesEntity, state: Boolean) {
+        games.isFavorite = state
+        Log.d("favorite3", "${games.isFavorite}, ${games.id}")
+        return rawgDao.updateFavoriteGames(games)
     }
 }

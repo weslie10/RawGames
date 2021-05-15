@@ -6,15 +6,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RawgDao {
-
-    @Query("SELECT * FROM games")
-    fun getAllGames(): Flow<List<GamesEntity>>
-
     @Query("SELECT * FROM games where favorite = 1")
     fun getFavoriteGames(): Flow<List<GamesEntity>>
 
+    @Query("SELECT * FROM games where id=:id")
+    fun getDetailGames(id: Int): Flow<GamesEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGames(games: List<GamesEntity>)
+    suspend fun insertGames(games: GamesEntity)
 
     @Update
     fun updateFavoriteGames(games: GamesEntity)

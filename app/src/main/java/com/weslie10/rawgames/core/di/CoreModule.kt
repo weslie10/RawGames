@@ -17,7 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val databaseModule = module {
-    factory { get<RawgDatabase>().rawgDao() }
+    factory {
+        get<RawgDatabase>().rawgDao()
+    }
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -36,7 +38,7 @@ val networkModule = module {
     }
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.rawg.io/api")
+            .baseUrl("https://api.rawg.io/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

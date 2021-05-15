@@ -1,7 +1,6 @@
 package com.weslie10.rawgames.core.domain.model
 
 import android.os.Parcelable
-import com.weslie10.rawgames.core.data.source.remote.response.*
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -16,13 +15,13 @@ data class Games(
     val released: String,
     val updated: String,
     val website: String,
-    val developers: List<DevelopersItem>,
-    val publishers: List<PublishersItem>,
-    val parentPlatforms: List<ParentPlatformsItem>,
-    val tags: List<TagsItem>,
-    val ratings: List<RatingsItem>,
-    val esrbRating: List<EsrbRating>,
-    val genres: List<GenresItem>,
-    val stores: List<StoresItem>,
+    val developers: String,
+    val publishers: String,
+    val parentPlatforms: String,
+    val tags: String,
+    val ratings: Int,
+    val esrbRating: String,
+    val genres: String,
+    val stores: String,
     var isFavorite: Boolean = false
 ) : Parcelable

@@ -11,27 +11,31 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource(private val apiService: ApiService) {
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
-
-        fun getInstance(service: ApiService): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource(service)
-            }
-    }
-
-    suspend fun getAllGames(): Flow<ApiResponse<List<ResultsItem>>> {
-        //get data from remote api
+    fun getAllGames(): Flow<List<ResultsItem>> {
         return flow {
             try {
-                val response = apiService.getGames()
-                val dataArray = response.results
-                if (dataArray.isNotEmpty()) {
-                    emit(ApiResponse.Success(response.results))
-                } else {
-                    emit(ApiResponse.Empty)
-                }
+                emit(apiService.getGames().results)
+            } catch (e: Exception) {
+                Log.e("RemoteDataSource", e.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getSearchGames(search: String): Flow<List<ResultsItem>> {
+        return flow {
+            try {
+                emit(apiService.getSearchGames(search).results)
+            } catch (e: Exception) {
+                Log.e("RemoteDataSource", e.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getDetailGames(id: Int): Flow<ApiResponse<GamesResponse>> {
+        return flow {
+            try {
+                val response = apiService.getDetailGames(id)
+                emit(ApiResponse.Success(response))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("RemoteDataSource", e.toString())
