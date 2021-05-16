@@ -21,7 +21,6 @@ object DataMapper {
             name = data.name,
             nameOriginal = data.name,
             backgroundImage = data.backgroundImage,
-            backgroundImageAdditional = data.backgroundImageAdditional,
             descriptionRaw = data.descriptionRaw,
             playtime = data.playtime,
             released = data.released,
@@ -44,7 +43,6 @@ object DataMapper {
         name = data.name,
         nameOriginal = data.name,
         backgroundImage = data.backgroundImage,
-        backgroundImageAdditional = data.backgroundImageAdditional,
         descriptionRaw = data.descriptionRaw,
         playtime = data.playtime,
         released = data.released,
@@ -62,36 +60,13 @@ object DataMapper {
     )
 
     fun mapListEntitiesToListDomain(input: List<GamesEntity>): List<Games> =
-        input.map { data ->
-            Games(
-                id = data.id,
-                name = data.name,
-                nameOriginal = data.name,
-                backgroundImage = data.backgroundImage,
-                backgroundImageAdditional = data.backgroundImageAdditional,
-                descriptionRaw = data.descriptionRaw,
-                playtime = data.playtime,
-                released = data.released,
-                updated = data.updated,
-                website = data.website,
-                developers = data.developers,
-                publishers = data.publishers,
-                parentPlatforms = data.parentPlatforms,
-                tags = data.tags,
-                ratings = data.ratings,
-                esrbRating = data.esrbRating,
-                genres = data.genres,
-                stores = data.stores,
-                isFavorite = data.isFavorite
-            )
-        }
+        input.map { mapEntitiesToDomain(it) }
 
     fun mapDomainToEntity(data: Games) = GamesEntity(
         id = data.id,
         name = data.name,
         nameOriginal = data.name,
         backgroundImage = data.backgroundImage,
-        backgroundImageAdditional = data.backgroundImageAdditional,
         descriptionRaw = data.descriptionRaw,
         playtime = data.playtime,
         released = data.released,

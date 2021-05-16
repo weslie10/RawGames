@@ -7,16 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.weslie10.rawgames.core.ui.FavoriteAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import com.weslie10.rawgames.core.domain.model.Games
 import com.weslie10.rawgames.core.utils.Utility.loading
-import com.weslie10.rawgames.databinding.FragmentFavoriteBinding
-import com.weslie10.rawgames.detail.DetailActivity
+import com.weslie10.rawgames.favorite.databinding.FragmentFavoriteBinding
+import com.weslie10.rawgames.favorite.di.favoriteModule
+import com.weslie10.rawgames.favorite.utils.ItemSwipeHelper
+import com.weslie10.rawgames.favorite.utils.OnItemSwiped
+import com.weslie10.rawgames.ui.detail.DetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding as FragmentFavoriteBinding
     private val favoriteViewModel: FavoriteViewModel by viewModel()
+    private lateinit var favoriteAdapter: FavoriteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +36,22 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val favoriteAdapter = FavoriteAdapter()
+        val itemSwipeHelper = ItemSwipeHelper(object : OnItemSwiped {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder) {
+                val swipedPosition = viewHolder.bindingAdapterPosition
+                val gameEntity = favoriteAdapter.getSwipedData(swipedPosition)
+                setFavorite(gameEntity)
+                Snackbar.make(view, R.string.message_undo, Snackbar.LENGTH_LONG).apply {
+                    setAction(R.string.message_ok) { setFavorite(gameEntity) }
+                    show()
+                }
+            }
+        })
+        itemSwipeHelper.attachToRecyclerView(binding.rvGames)
+
+        loadKoinModules(favoriteModule)
+
+        favoriteAdapter = FavoriteAdapter()
         favoriteViewModel.listFavorite.observe(viewLifecycleOwner) { favorite ->
             if (favorite.isNotEmpty()) {
                 favoriteAdapter.setData(favorite)
@@ -49,6 +71,11 @@ class FavoriteFragment : Fragment() {
                 binding.notFound.loading(true)
             }
         }
+    }
+
+    private fun setFavorite(games: Games) {
+        games.isFavorite = !games.isFavorite
+        favoriteViewModel.setFavoriteGames(games, games.isFavorite)
     }
 
     override fun onDestroy() {

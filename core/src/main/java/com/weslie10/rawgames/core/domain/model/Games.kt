@@ -9,7 +9,6 @@ data class Games(
     val name: String,
     val nameOriginal: String,
     val backgroundImage: String,
-    val backgroundImageAdditional: String,
     val descriptionRaw: String,
     val playtime: Int,
     val released: String,

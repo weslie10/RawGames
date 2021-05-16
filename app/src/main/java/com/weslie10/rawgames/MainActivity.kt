@@ -2,13 +2,13 @@ package com.weslie10.rawgames
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.weslie10.rawgames.databinding.ActivityMainBinding
-import com.weslie10.rawgames.favorite.FavoriteFragment
-import com.weslie10.rawgames.home.HomeFragment
+import com.weslie10.rawgames.ui.home.HomeFragment
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -23,12 +23,28 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var fragment: Fragment? = null
         when (item.itemId) {
-            R.id.home_menu -> fragment = HomeFragment()
-            R.id.favorite_menu -> fragment = FavoriteFragment()
+            R.id.home_menu -> loadFragment(HomeFragment())
+            R.id.favorite_menu -> moveToFavoriteFragment()
         }
-        return loadFragment(fragment)
+        return true
+    }
+
+    private fun moveToFavoriteFragment() {
+        val fragment = instantiateFragment()
+        if (fragment != null) {
+            loadFragment(fragment)
+        }
+    }
+
+    private fun instantiateFragment(): Fragment? {
+        return try {
+            Class.forName("$packageName.favorite.FavoriteFragment")
+                .newInstance() as Fragment
+        } catch (e: Exception) {
+            Toast.makeText(this, "Module not found", Toast.LENGTH_SHORT).show()
+            null
+        }
     }
 
     private fun loadFragment(fragment: Fragment?): Boolean {

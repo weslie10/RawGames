@@ -1,4 +1,4 @@
-package com.weslie10.rawgames.detail
+package com.weslie10.rawgames.ui.detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations

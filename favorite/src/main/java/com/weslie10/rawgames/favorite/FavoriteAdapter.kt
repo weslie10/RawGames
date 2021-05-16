@@ -1,4 +1,4 @@
-package com.weslie10.rawgames.core.ui
+package com.weslie10.rawgames.favorite
 
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +20,8 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.ListViewHolder>() {
         listData.addAll(newListData)
         notifyDataSetChanged()
     }
+
+    fun getSwipedData(swipedPosition: Int): Games = listData[swipedPosition]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ListViewHolder(

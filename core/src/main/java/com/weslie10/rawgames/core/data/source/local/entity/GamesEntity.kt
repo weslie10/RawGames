@@ -18,8 +18,6 @@ data class GamesEntity(
     val nameOriginal: String,
     @ColumnInfo(name = "background_image")
     val backgroundImage: String,
-    @ColumnInfo(name = "background_image_additional")
-    val backgroundImageAdditional: String,
     @ColumnInfo(name = "description_raw")
     val descriptionRaw: String,
     @ColumnInfo(name = "playtime")

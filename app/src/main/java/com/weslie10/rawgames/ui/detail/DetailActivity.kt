@@ -1,7 +1,6 @@
-package com.weslie10.rawgames.detail
+package com.weslie10.rawgames.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +20,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val detailViewModel: DetailViewModel by viewModel()
-    private var isShrink = false
+    private var isShrink = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +70,7 @@ class DetailActivity : AppCompatActivity() {
                 detailWebsite.apply {
                     changeText(website)
                     visibility = View.GONE
-                    if (text != "") {
+                    if (text != "-") {
                         visibility = View.VISIBLE
                         setLink()
                     }
@@ -95,24 +94,34 @@ class DetailActivity : AppCompatActivity() {
 
                 detailStores.apply {
                     removeAllViews()
-                    stores
-                        .split(",")
-                        .map { it.trim() }
-                        .map { addChip(it) }
+                    if (stores.isNotEmpty()) {
+                        visibility = View.VISIBLE
+                        stores
+                            .split(",")
+                            .map { it.trim() }
+                            .map { addChip(it) }
+                    } else {
+                        binding.whereToBuyTxt.visibility = View.GONE
+                        visibility = View.GONE
+                    }
                 }
                 detailTags.apply {
                     removeAllViews()
-                    tags
-                        .split(",")
-                        .map { it.trim() }
-                        .map { addChip(it) }
+                    if (tags.isNotEmpty()) {
+                        tags
+                            .split(",")
+                            .map { it.trim() }
+                            .map { addChip(it) }
+                    } else {
+                        binding.tagsTxt.visibility = View.GONE
+                        visibility = View.GONE
+                    }
                 }
-                Log.d("favorite",isFavorite.toString())
                 favoriteBtn.apply {
                     setFavoriteState(isFavorite)
                     setOnClickListener {
                         isFavorite = !isFavorite
-                        detailViewModel.setFavoriteGames(data,isFavorite)
+                        detailViewModel.setFavoriteGames(data, isFavorite)
                     }
                 }
             }

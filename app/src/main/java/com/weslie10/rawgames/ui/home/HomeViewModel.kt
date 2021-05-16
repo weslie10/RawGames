@@ -1,4 +1,4 @@
-package com.weslie10.rawgames.home
+package com.weslie10.rawgames.ui.home
 
 import androidx.lifecycle.*
 import com.weslie10.rawgames.core.domain.usecase.RawgUseCase

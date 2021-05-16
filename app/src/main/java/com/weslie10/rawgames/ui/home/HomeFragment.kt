@@ -1,4 +1,4 @@
-package com.weslie10.rawgames.home
+package com.weslie10.rawgames.ui.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,8 +13,8 @@ import com.weslie10.rawgames.core.data.source.remote.response.ResultsItem
 import com.weslie10.rawgames.core.ui.GamesAdapter
 import com.weslie10.rawgames.core.utils.Utility.loading
 import com.weslie10.rawgames.databinding.FragmentHomeBinding
-import com.weslie10.rawgames.detail.DetailActivity
-import com.weslie10.rawgames.detail.DetailActivity.Companion.ID
+import com.weslie10.rawgames.ui.detail.DetailActivity
+import com.weslie10.rawgames.ui.detail.DetailActivity.Companion.ID
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -55,6 +55,7 @@ class HomeFragment : Fragment() {
 
             setUpSearch()
             homeViewModel.getSearch().observe(viewLifecycleOwner, { search ->
+                allLoading(true)
                 if (search.isNotEmpty()) {
                     homeViewModel.searchGames.observe(viewLifecycleOwner, gameObserver)
                 } else {
@@ -81,19 +82,16 @@ class HomeFragment : Fragment() {
                 allLoading(false)
             }
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    allLoading(true)
-                    homeViewModel.setSearch(query)
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String): Boolean {
-                    allLoading(true)
-                    homeViewModel.setSearch(newText)
-                    return true
-                }
+                override fun onQueryTextSubmit(query: String): Boolean = search(query)
+                override fun onQueryTextChange(newText: String): Boolean = search(newText)
             })
         }
+    }
+
+    private fun search(query: String): Boolean {
+        allLoading(true)
+        homeViewModel.setSearch(query)
+        return true
     }
 
     private fun allLoading(state: Boolean) {

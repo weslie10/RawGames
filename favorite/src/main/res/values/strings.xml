@@ -1,0 +1,4 @@
+<resources>
+    <string name="message_undo">Successful Delete Favorite Item</string>
+    <string name="message_ok">UNDO</string>
+</resources>

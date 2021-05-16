@@ -15,7 +15,7 @@ class LocalDataSource(private val rawgDao: RawgDao) {
 
     fun setFavoriteGames(games: GamesEntity, state: Boolean) {
         games.isFavorite = state
-        Log.d("state",games.isFavorite.toString())
+        Log.d("state", games.isFavorite.toString())
         rawgDao.updateFavoriteGames(games)
     }
 }
