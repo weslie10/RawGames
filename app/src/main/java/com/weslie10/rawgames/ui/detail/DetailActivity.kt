@@ -10,10 +10,10 @@ import com.weslie10.rawgames.core.domain.model.Games
 import com.weslie10.rawgames.core.utils.Utility.addChip
 import com.weslie10.rawgames.core.utils.Utility.changeText
 import com.weslie10.rawgames.core.utils.Utility.convertToDate
-import com.weslie10.rawgames.core.utils.Utility.loading
 import com.weslie10.rawgames.core.utils.Utility.setFavoriteState
 import com.weslie10.rawgames.core.utils.Utility.setImage
 import com.weslie10.rawgames.core.utils.Utility.setLink
+import com.weslie10.rawgames.core.utils.Utility.show
 import com.weslie10.rawgames.databinding.ActivityDetailBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -34,13 +34,13 @@ class DetailActivity : AppCompatActivity() {
         detailViewModel.game.observe(this, { game ->
             if (game != null) {
                 when (game) {
-                    is Resource.Loading -> binding.progressBar.loading(true)
+                    is Resource.Loading -> binding.progressBar.show(true)
                     is Resource.Success -> {
-                        binding.progressBar.loading(false)
+                        binding.progressBar.show(false)
                         populateData(game.data as Games)
                     }
                     is Resource.Error -> {
-                        binding.progressBar.loading(false)
+                        binding.progressBar.show(false)
                         Snackbar.make(binding.root, game.message.toString(), Snackbar.LENGTH_LONG)
                     }
                 }

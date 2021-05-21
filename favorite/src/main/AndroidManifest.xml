@@ -2,9 +2,7 @@
 <manifest xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.weslie10.rawgames.favorite">
 
-    <dist:module
-        dist:instant="false"
-        dist:title="@string/title_favorite">
+    <dist:module dist:instant="false">
         <dist:delivery>
             <dist:install-time />
         </dist:delivery>

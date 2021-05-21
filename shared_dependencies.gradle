@@ -1,4 +1,5 @@
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$core_ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
@@ -6,6 +7,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     implementation "androidx.multidex:multidex:$multidex_version"
 
     implementation "androidx.cardview:cardview:$cardview_version"
@@ -13,8 +15,8 @@ dependencies {
     implementation "com.google.android.material:material:$material_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "com.airbnb.android:lottie:$lottie_version"
+    implementation "com.facebook.shimmer:shimmer:$shimmer_version"
 
-    //koin
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-viewmodel:$koin_version"

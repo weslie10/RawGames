@@ -1,11 +1,9 @@
 package com.weslie10.rawgames.core.data
 
-import android.util.Log
 import com.weslie10.rawgames.core.data.source.local.LocalDataSource
 import com.weslie10.rawgames.core.data.source.remote.RemoteDataSource
 import com.weslie10.rawgames.core.data.source.remote.network.ApiResponse
 import com.weslie10.rawgames.core.data.source.remote.response.GamesResponse
-import com.weslie10.rawgames.core.data.source.remote.response.ResultsItem
 import com.weslie10.rawgames.core.domain.model.Games
 import com.weslie10.rawgames.core.domain.repository.IRawgRepository
 import com.weslie10.rawgames.core.utils.AppExecutors
@@ -19,10 +17,19 @@ class RawgRepository(
     private val appExecutors: AppExecutors
 ) : IRawgRepository {
 
-    override fun getAllGames(): Flow<List<ResultsItem>> = remoteDataSource.getAllGames()
+    override fun getAllGames(): Flow<List<Games>> {
+        val data = remoteDataSource.getAllGames()
+        return data.map { game ->
+            DataMapper.mapListResponsesToListDomain(game)
+        }
+    }
 
-    override fun getSearchGames(search: String): Flow<List<ResultsItem>> =
-        remoteDataSource.getSearchGames(search)
+    override fun getSearchGames(search: String): Flow<List<Games>> {
+        val data = remoteDataSource.getSearchGames(search)
+        return data.map { game ->
+            DataMapper.mapListResponsesToListDomain(game)
+        }
+    }
 
     override fun getDetailGames(id: Int): Flow<Resource<Games>> =
         object :
@@ -31,9 +38,7 @@ class RawgRepository(
                 return localDataSource.getDetailGames(id).map {
                     if (it != null) {
                         DataMapper.mapEntitiesToDomain(it)
-                    } else {
-                        it
-                    }
+                    } else it
                 }
             }
 
@@ -55,7 +60,6 @@ class RawgRepository(
 
     override fun setFavoriteGames(games: Games, state: Boolean) {
         val gamesEntity = DataMapper.mapDomainToEntity(games)
-        Log.d("game", gamesEntity.toString())
         appExecutors.diskIO().execute { localDataSource.setFavoriteGames(gamesEntity, state) }
     }
 }

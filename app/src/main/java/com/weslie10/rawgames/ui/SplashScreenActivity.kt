@@ -1,13 +1,11 @@
 package com.weslie10.rawgames.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import com.weslie10.rawgames.MainActivity
-import com.weslie10.rawgames.R
 import com.weslie10.rawgames.databinding.ActivitySplashScreenBinding
 
 class SplashScreenActivity : AppCompatActivity() {

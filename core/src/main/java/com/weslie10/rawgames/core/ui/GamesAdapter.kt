@@ -5,17 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.weslie10.rawgames.core.R
-import com.weslie10.rawgames.core.data.source.remote.response.ResultsItem
 import com.weslie10.rawgames.core.databinding.ItemRowBinding
+import com.weslie10.rawgames.core.domain.model.Games
 import com.weslie10.rawgames.core.utils.Utility.setImage
 import java.util.*
 
 class GamesAdapter : RecyclerView.Adapter<GamesAdapter.ListViewHolder>() {
 
-    private var listData = ArrayList<ResultsItem>()
-    var onItemClick: ((ResultsItem) -> Unit)? = null
+    private var listData = ArrayList<Games>()
+    var onItemClick: ((Games) -> Unit)? = null
 
-    fun setData(newListData: List<ResultsItem>) {
+    fun setData(newListData: List<Games>) {
         listData.clear()
         listData.addAll(newListData)
         notifyDataSetChanged()
@@ -35,7 +35,7 @@ class GamesAdapter : RecyclerView.Adapter<GamesAdapter.ListViewHolder>() {
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemRowBinding.bind(itemView)
-        fun bind(data: ResultsItem) {
+        fun bind(data: Games) {
             with(binding) {
                 itemImage.setImage(data.backgroundImage)
                 itemName.text = data.name

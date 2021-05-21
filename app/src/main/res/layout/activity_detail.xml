@@ -19,7 +19,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -37,6 +38,7 @@
                 android:padding="16dp"
                 android:src="@drawable/ic_back"
                 android:translationZ="5dp"
+                app:backgroundTint="@color/red_dark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/white" />
@@ -75,6 +77,7 @@
                 android:contentDescription="@string/favorite"
                 android:padding="16dp"
                 android:src="@drawable/ic_favorite_white"
+                app:backgroundTint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/detail_rating"
                 app:layout_constraintTop_toBottomOf="@id/detail_name"

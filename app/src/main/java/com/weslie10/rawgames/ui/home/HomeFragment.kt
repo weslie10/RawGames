@@ -9,9 +9,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.weslie10.rawgames.core.data.source.remote.response.ResultsItem
+import com.weslie10.rawgames.core.domain.model.Games
 import com.weslie10.rawgames.core.ui.GamesAdapter
 import com.weslie10.rawgames.core.utils.Utility.loading
+import com.weslie10.rawgames.core.utils.Utility.show
 import com.weslie10.rawgames.databinding.FragmentHomeBinding
 import com.weslie10.rawgames.ui.detail.DetailActivity
 import com.weslie10.rawgames.ui.detail.DetailActivity.Companion.ID
@@ -65,13 +66,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val gameObserver = Observer<List<ResultsItem>> { game ->
+    private val gameObserver = Observer<List<Games>> { game ->
         if (game.isNotEmpty()) {
             allLoading(false)
             gamesAdapter.setData(game)
-            binding.notFound.loading(false)
+            binding.notFound.show(false)
         } else {
-            binding.notFound.loading(true)
+            binding.notFound.show(true)
         }
     }
 

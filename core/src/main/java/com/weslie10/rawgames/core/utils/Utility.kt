@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,7 +20,11 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 object Utility {
-    fun LottieAnimationView.loading(state: Boolean) {
+    fun LottieAnimationView.show(state: Boolean) {
+        visibility = if (state) View.VISIBLE else View.GONE
+    }
+
+    fun ShimmerFrameLayout.loading(state: Boolean) {
         visibility = if (state) View.VISIBLE else View.GONE
     }
 
@@ -45,7 +50,11 @@ object Utility {
     }
 
     fun TextView.changeText(str: String) {
-        text = if (str != "") str else "-"
+        text = str.convertString()
+    }
+
+    fun String?.convertString(): String {
+        return if (this == "" || this == null) "-" else this
     }
 
     fun String.convertToDate(): String {

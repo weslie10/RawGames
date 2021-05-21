@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.weslie10.rawgames.core.domain.model.Games
 import com.weslie10.rawgames.core.utils.Utility.loading
+import com.weslie10.rawgames.core.utils.Utility.show
 import com.weslie10.rawgames.favorite.databinding.FragmentFavoriteBinding
 import com.weslie10.rawgames.favorite.di.favoriteModule
 import com.weslie10.rawgames.favorite.utils.ItemSwipeHelper
@@ -41,7 +42,7 @@ class FavoriteFragment : Fragment() {
                 val swipedPosition = viewHolder.bindingAdapterPosition
                 val gameEntity = favoriteAdapter.getSwipedData(swipedPosition)
                 setFavorite(gameEntity)
-                Snackbar.make(view, R.string.message_undo, Snackbar.LENGTH_LONG).apply {
+                Snackbar.make(binding.rvGames, R.string.message_undo, Snackbar.LENGTH_LONG).apply {
                     setAction(R.string.message_ok) { setFavorite(gameEntity) }
                     show()
                 }
@@ -52,24 +53,26 @@ class FavoriteFragment : Fragment() {
         loadKoinModules(favoriteModule)
 
         favoriteAdapter = FavoriteAdapter()
+        binding.progressBar.loading(true)
         favoriteViewModel.listFavorite.observe(viewLifecycleOwner) { favorite ->
             if (favorite.isNotEmpty()) {
                 favoriteAdapter.setData(favorite)
-                binding.notFound.loading(false)
+                binding.progressBar.loading(false)
+                binding.notFound.show(false)
 
                 favoriteAdapter.onItemClick = { data ->
                     val intent = Intent(activity, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.ID, data.id)
                     startActivity(intent)
                 }
-                with(binding.rvGames) {
-                    layoutManager = LinearLayoutManager(context)
-                    setHasFixedSize(true)
-                    adapter = favoriteAdapter
-                }
             } else {
-                binding.notFound.loading(true)
+                binding.notFound.show(true)
             }
+        }
+        with(binding.rvGames) {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = favoriteAdapter
         }
     }
 

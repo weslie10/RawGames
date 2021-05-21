@@ -2,7 +2,9 @@ package com.weslie10.rawgames.core.utils
 
 import com.weslie10.rawgames.core.data.source.local.entity.GamesEntity
 import com.weslie10.rawgames.core.data.source.remote.response.GamesResponse
+import com.weslie10.rawgames.core.data.source.remote.response.ResultsItem
 import com.weslie10.rawgames.core.domain.model.Games
+import com.weslie10.rawgames.core.utils.Utility.convertString
 
 
 object DataMapper {
@@ -36,6 +38,36 @@ object DataMapper {
             stores = stores,
             isFavorite = false
         )
+    }
+
+    private fun mapResponseToDomain(data: ResultsItem): Games {
+
+        return Games(
+            id = data.id,
+            name = data.name.convertString(),
+            nameOriginal = data.name.convertString(),
+            backgroundImage = data.backgroundImage,
+            descriptionRaw = "",
+            playtime = 0,
+            released = data.released.convertString(),
+            updated = "",
+            website = "",
+            developers = "",
+            publishers = "",
+            parentPlatforms = "",
+            tags = "",
+            ratings = 0,
+            esrbRating = "",
+            genres = "",
+            stores = "",
+            isFavorite = false
+        )
+    }
+
+    fun mapListResponsesToListDomain(input: List<ResultsItem>): List<Games> {
+        return input.map { data ->
+            mapResponseToDomain(data)
+        }
     }
 
     fun mapEntitiesToDomain(data: GamesEntity): Games = Games(
