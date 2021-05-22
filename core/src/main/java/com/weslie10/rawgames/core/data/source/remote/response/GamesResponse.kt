@@ -7,6 +7,8 @@ data class GamesResponse(
     val id: Int,
     @field:SerializedName("name")
     val name: String,
+    @field:SerializedName("slug")
+    val slug: String,
     @field:SerializedName("name_original")
     val nameOriginal: String,
     @field:SerializedName("background_image")

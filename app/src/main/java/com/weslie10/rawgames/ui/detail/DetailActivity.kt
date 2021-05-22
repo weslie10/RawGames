@@ -1,5 +1,6 @@
 package com.weslie10.rawgames.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -123,6 +124,15 @@ class DetailActivity : AppCompatActivity() {
                         isFavorite = !isFavorite
                         detailViewModel.setFavoriteGames(data, isFavorite)
                     }
+                }
+                shareBtn.setOnClickListener {
+                    val shareIntent = Intent.createChooser(Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, "https://rawg.io/games/${slug}")
+                        putExtra(Intent.EXTRA_TITLE, name)
+                        type = "text/plain"
+                    }, null)
+                    startActivity(shareIntent)
                 }
             }
         }

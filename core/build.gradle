@@ -15,7 +15,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "KEY", "\"1b43eaf726e14fd78bba9f06f34332b0\""
+        buildConfigField "String", "KEY", "\"K4ow9ULmrCfqO1p9dOf+NiJUUVxMg2TajaxU1xsZCzEIcUgw3Wg/JUgWpuZp8idA\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

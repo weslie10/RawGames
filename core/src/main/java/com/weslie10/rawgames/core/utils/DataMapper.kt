@@ -20,7 +20,8 @@ object DataMapper {
 
         return GamesEntity(
             id = data.id,
-            name = data.name,
+            name = data.name.convertString(),
+            slug = data.slug,
             nameOriginal = data.name,
             backgroundImage = data.backgroundImage,
             descriptionRaw = data.descriptionRaw,
@@ -45,6 +46,7 @@ object DataMapper {
         return Games(
             id = data.id,
             name = data.name.convertString(),
+            slug = "",
             nameOriginal = data.name.convertString(),
             backgroundImage = data.backgroundImage,
             descriptionRaw = "",
@@ -74,6 +76,7 @@ object DataMapper {
         id = data.id,
         name = data.name,
         nameOriginal = data.name,
+        slug = data.slug,
         backgroundImage = data.backgroundImage,
         descriptionRaw = data.descriptionRaw,
         playtime = data.playtime,
@@ -98,6 +101,7 @@ object DataMapper {
         id = data.id,
         name = data.name,
         nameOriginal = data.name,
+        slug = data.slug,
         backgroundImage = data.backgroundImage,
         descriptionRaw = data.descriptionRaw,
         playtime = data.playtime,

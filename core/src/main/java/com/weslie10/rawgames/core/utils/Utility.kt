@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,8 +17,17 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.weslie10.rawgames.core.R
+import java.security.spec.KeySpec
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.PBEKeySpec
+import javax.crypto.spec.SecretKeySpec
+
 
 object Utility {
     fun LottieAnimationView.show(state: Boolean) {
@@ -61,6 +71,35 @@ object Utility {
         val formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
         val date = LocalDate.parse(this)
         return date.format(formatter)
+    }
+
+    private fun initCipher(): Cipher {
+        val secret = "weslie10"
+        val salt = "very salty hehehe"
+        val iv = byteArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        val ivSpec = IvParameterSpec(iv)
+        val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
+        val spec: KeySpec = PBEKeySpec(
+            secret.toCharArray(), salt.toByteArray(),
+            65536, 256
+        )
+        val tmp: SecretKey = factory.generateSecret(spec)
+        val secretKey = SecretKeySpec(tmp.encoded, "AES")
+        val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec)
+        return cipher
+    }
+
+    fun String.decrypt(): String? {
+        try {
+            val cipher = initCipher()
+            return String(
+                cipher.doFinal(Base64.getDecoder().decode(this))
+            )
+        } catch (e: Exception) {
+            Log.e("error", e.toString())
+        }
+        return null
     }
 
     fun TextView.setLink() {

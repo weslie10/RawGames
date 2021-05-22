@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.weslie10.rawgames
 
 import android.app.Application
