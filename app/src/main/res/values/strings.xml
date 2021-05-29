@@ -17,7 +17,7 @@
     <string name="tags">Tags</string>
     <string name="search">Search Games&#8230;</string>
     <string name="back">Back</string>
-    <string name="power_connected">Power connected!</string>
-    <string name="power_disconnected">Power disconnected!</string>
     <string name="share">Share</string>
+    <string name="item_date">10 September 2000</string>
+    <string name="item_name">Grand There Auto V</string>
 </resources>

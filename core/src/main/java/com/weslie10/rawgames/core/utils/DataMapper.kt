@@ -48,7 +48,7 @@ object DataMapper {
             name = data.name.convertString(),
             slug = "",
             nameOriginal = data.name.convertString(),
-            backgroundImage = data.backgroundImage,
+            backgroundImage = data.backgroundImage.convertString(),
             descriptionRaw = "",
             playtime = 0,
             released = data.released.convertString(),
